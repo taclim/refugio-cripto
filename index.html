@@ -523,7 +523,7 @@
                 '/api/operations'                                             // Relativa (ÚLTIMO - solo si ngrok falla)
             ],
             REFRESH_INTERVAL: 5000,  // 5 segundos
-            TIMEOUT: 5000             // 5 segundos timeout
+            TIMEOUT: 10000            // 15 segundos timeout (aumentado para app.py)
         };
 
         let mockOperations = [];
