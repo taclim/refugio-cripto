@@ -518,12 +518,12 @@
         const CONFIG = {
             // Intentar múltiples URLs de API
             API_URLS: [
-                'https://ce446f89f961.ngrok-free.app/api/operations',        // API LOCAL via ngrok (PRIMERO - DATOS REALES)
+                'https://2a95b5e8703c.ngrok-free.app/api/operations',        // API LOCAL via ngrok (PRIMERO - DATOS REALES)
                 'http://localhost:5000/api/operations',                       // Local
                 '/api/operations'                                             // Relativa (ÚLTIMO - solo si ngrok falla)
             ],
             REFRESH_INTERVAL: 5000,  // 5 segundos
-            TIMEOUT: 10000            // 15 segundos timeout (aumentado para app.py)
+            TIMEOUT: 10000            // 10 segundos timeout
         };
 
         let mockOperations = [];
