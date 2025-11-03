@@ -744,6 +744,9 @@
         }
 
         // FUNCIÓN PARA CREAR TARJETA
+        // ✅ CORRECCIÓN: Lógica dinámica de progreso para SHORT (ZEC, M)
+        // SHORT: Si current <= entry → AVANCE AL TP (VERDE)
+        // SHORT: Si current > entry → RETROCESO AL SL (ROJO)
         function createOperationCard(op) {
             const progress = calculateProgress(op.entry, op.current, op.tp, op.sl, op.type);
             const status = getStatus(op.current, op.entry, op.tp, op.sl, op.type);
@@ -765,12 +768,15 @@
                     progressLabel = '📉 RETROCESO AL SL';
                 }
             } else if (op.type === 'SHORT') {
-                // SHORT: si está entre entry y tp = VERDE, si está entre entry y sl = ROJO
+                // SHORT: si current <= entry = VERDE (camino a TP), si current > entry = ROJO (camino a SL)
                 if (op.current <= op.entry) {
                     progressBarColor = '#00ff88';  // VERDE (camino a TP)
                     progressLabel = '📈 AVANCE AL TP';
-                } else {
+                } else if (op.current > op.entry) {
                     progressBarColor = '#ff4444';  // ROJO (camino a SL)
+                    progressLabel = '📉 RETROCESO AL SL';
+                } else {
+                    progressBarColor = '#ff4444';  // ROJO (por defecto)
                     progressLabel = '📉 RETROCESO AL SL';
                 }
             } else {
