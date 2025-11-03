@@ -519,9 +519,8 @@
             // Intentar múltiples URLs de API
             API_URLS: [
                 'https://ce446f89f961.ngrok-free.app/api/operations',        // API LOCAL via ngrok (PRIMERO - DATOS REALES)
-                '/api/operations',                                            // Relativa (funciona en Vercel y local)
                 'http://localhost:5000/api/operations',                       // Local
-                'https://refugio-cripto-backend.vercel.app/api/operations'   // Backend en Vercel (fallback)
+                '/api/operations'                                             // Relativa (ÚLTIMO - solo si ngrok falla)
             ],
             REFRESH_INTERVAL: 5000,  // 5 segundos
             TIMEOUT: 5000             // 5 segundos timeout
@@ -609,15 +608,22 @@
                         method: 'GET',
                         signal: controller.signal,
                         headers: {
-                            'Accept': 'application/json'
-                        }
+                            'Accept': 'application/json',
+                            'Cache-Control': 'no-cache, no-store, must-revalidate',
+                            'Pragma': 'no-cache',
+                            'Expires': '0'
+                        },
+                        cache: 'no-store'
                     });
                     
                     clearTimeout(timeoutId);
                     
                     if (response.ok) {
                         const data = await response.json();
-                        if (data.success && data.data) {
+                        console.log(`📊 Respuesta de ${url}:`, data);
+                        
+                        // ✅ ACEPTAR INCLUSO SI data.data ESTÁ VACÍO (significa que es Vercel consultando ngrok)
+                        if (data.success) {
                             console.log(`✅ API encontrada: ${url}`);
                             currentApiUrl = url;
                             document.getElementById('api-info').textContent = `✅ API: ${url}`;
