@@ -241,6 +241,21 @@ def get_operations():
         print("📡 SOLICITUD: /api/operations")
         print("="*80)
         
+        # ✅ VERIFICAR SI ESTAMOS EN VERCEL
+        import os
+        is_vercel = os.environ.get('VERCEL') == '1'
+        
+        if is_vercel:
+            print("⚠️  VERCEL DETECTADO - Retornando respuesta vacía")
+            print("💡 Vercel debe consultar API local via ngrok")
+            return jsonify({
+                'success': True,
+                'data': [],
+                'count': 0,
+                'timestamp': datetime.now().isoformat(),
+                'note': 'Vercel debe consultar API local via ngrok'
+            })
+        
         signals = get_active_signals()
         
         return jsonify({
