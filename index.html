@@ -707,6 +707,25 @@
             }
         }
 
+        // FUNCIÓN PARA DETECTAR RIESGO DE REVERSIÓN
+        function detectReversal(current, entry, tp, sl, type) {
+            // Calcular distancia a TP y SL en porcentaje
+            let distanceToTP, distanceToSL;
+            
+            if (type === 'LONG') {
+                distanceToTP = Math.abs((current - tp) / tp * 100);
+                distanceToSL = Math.abs((current - sl) / sl * 100);
+            } else if (type === 'SHORT') {
+                distanceToTP = Math.abs((current - tp) / tp * 100);
+                distanceToSL = Math.abs((current - sl) / sl * 100);
+            } else {
+                return false;
+            }
+            
+            // Riesgo de reversión si está muy cerca de TP o SL (< 2%)
+            return distanceToTP < 2 || distanceToSL < 2;
+        }
+
         // FUNCIÓN PARA DETERMINAR ESTADO
         function getStatus(current, entry, tp, sl, type) {
             if (type === 'LONG') {
@@ -734,23 +753,30 @@
             
             // El color de la BARRA DE PROGRESO se basa en si va hacia TP o SL
             let progressBarColor;
+            let progressLabel;
+            
             if (op.type === 'LONG') {
                 // LONG: si está entre entry y tp = VERDE, si está entre entry y sl = ROJO
                 if (op.current >= op.entry) {
                     progressBarColor = '#00ff88';  // VERDE (camino a TP)
+                    progressLabel = '📈 AVANCE AL TP';
                 } else {
                     progressBarColor = '#ff4444';  // ROJO (camino a SL)
+                    progressLabel = '📉 RETROCESO AL SL';
                 }
             } else if (op.type === 'SHORT') {
                 // SHORT: si está entre entry y tp = VERDE, si está entre entry y sl = ROJO
                 if (op.current <= op.entry) {
                     progressBarColor = '#00ff88';  // VERDE (camino a TP)
+                    progressLabel = '📈 AVANCE AL TP';
                 } else {
                     progressBarColor = '#ff4444';  // ROJO (camino a SL)
+                    progressLabel = '📉 RETROCESO AL SL';
                 }
             } else {
                 // LATERAL
                 progressBarColor = '#00ccff';  // CYAN
+                progressLabel = '📊 MERCADO LATERAL';
             }
             
             const change = op.type === 'LONG' 
@@ -780,7 +806,7 @@
 
                     <div class="progress-section">
                         <div class="progress-label">
-                            <span>${op.type === 'LONG' ? '📈 AVANCE AL TP' : op.type === 'SHORT' ? '📉 RETROCESO AL SL' : '📊 MERCADO LATERAL'}</span>
+                            <span>${progressLabel}</span>
                             <span>${progress.toFixed(1)}%</span>
                         </div>
                         <div class="progress-bar-container">
