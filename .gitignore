@@ -1,7 +1,6 @@
-# Base de datos (NO sincronizar a GitHub/Vercel)
-signals.db
+# Base de datos (SINCRONIZAR signals.db a GitHub/Vercel)
+# signals.db - PERMITIR (necesario para Vercel)
 ml_learning.db
-*.db
 *.db-journal
 *.db.backup*
 

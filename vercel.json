@@ -14,6 +14,5 @@
   ],
   "env": {
     "PYTHONUNBUFFERED": "1"
-  },
-  "buildCommand": "rm -f signals.db ml_learning.db"
+  }
 }
