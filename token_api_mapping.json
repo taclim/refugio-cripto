@@ -1,0 +1,37 @@
+{
+  "mapping": {
+    "VET": "kucoin_futures",
+    "MANA": "binance_futures",
+    "ALGO": "binance_futures",
+    "TIA": "okx_futures",
+    "BTC": "kucoin_futures",
+    "PENDLE": "okx_futures",
+    "ATOM": "bybit_futures",
+    "ADA": "binance_futures",
+    "LINK": "gate_futures",
+    "AVAX": "kucoin_futures",
+    "PYTH": "kucoin_futures",
+    "ROSE": "kucoin_futures",
+    "KAVA": "binance_futures",
+    "OP": "okx_futures",
+    "ENS": "mexc_futures",
+    "TAO": "binance_futures",
+    "M": "okx_futures",
+    "SOL": "kucoin_futures",
+    "DOT": "okx_futures",
+    "NEAR": "kucoin_futures",
+    "ETC": "bybit_futures",
+    "JUP": "gate_futures",
+    "ETH": "binance_futures"
+  },
+  "timestamp": "2025-11-02T21:06:39.111632",
+  "total_tokens": 23,
+  "api_distribution": {
+    "binance_futures": 6,
+    "bybit_futures": 2,
+    "okx_futures": 5,
+    "kucoin_futures": 7,
+    "gate_futures": 2,
+    "mexc_futures": 1
+  }
+}
