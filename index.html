@@ -608,12 +608,8 @@
                         method: 'GET',
                         signal: controller.signal,
                         headers: {
-                            'Accept': 'application/json',
-                            'Cache-Control': 'no-cache, no-store, must-revalidate',
-                            'Pragma': 'no-cache',
-                            'Expires': '0'
-                        },
-                        cache: 'no-store'
+                            'Accept': 'application/json'
+                        }
                     });
                     
                     clearTimeout(timeoutId);

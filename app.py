@@ -3,7 +3,7 @@ Backend para REFUGIO CRIPTO Dashboard
 Usa las MISMAS APIs que el bot para obtener precios en tiempo real
 """
 
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 import sqlite3
 from datetime import datetime, timedelta
@@ -14,7 +14,35 @@ import threading
 import time
 
 app = Flask(__name__)
-CORS(app)
+
+# ✅ CONFIGURAR CORS CORRECTAMENTE PARA NGROK Y VERCEL
+CORS(app, 
+     origins="*",
+     allow_headers=["Content-Type", "Authorization", "Cache-Control", "Pragma", "Expires"],
+     methods=["GET", "POST", "OPTIONS"],
+     supports_credentials=False,
+     max_age=3600)
+
+# ✅ MANEJAR PREFLIGHT REQUESTS (OPTIONS)
+@app.before_request
+def handle_preflight():
+    if request.method == "OPTIONS":
+        response = jsonify({'status': 'ok'})
+        response.headers['Access-Control-Allow-Origin'] = '*'
+        response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
+        response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization, Cache-Control, Pragma, Expires'
+        response.headers['Access-Control-Max-Age'] = '3600'
+        return response, 200
+
+# ✅ AGREGAR HEADERS CORS A TODAS LAS RESPUESTAS
+@app.after_request
+def add_cors_headers(response):
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization, Cache-Control, Pragma, Expires'
+    response.headers['Access-Control-Max-Age'] = '3600'
+    response.headers['Access-Control-Expose-Headers'] = 'Content-Type'
+    return response
 
 DATABASE_PATH = 'signals.db'
 
