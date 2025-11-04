@@ -113,17 +113,37 @@ except Exception as e:
 def get_nested_value(data, path):
     """Obtiene valor anidado usando notación de puntos"""
     try:
+        # Si data es una lista, acceder al primer elemento
+        if isinstance(data, list):
+            if len(data) == 0:
+                return None
+            data = data[0]
+        
+        # Si data no es un diccionario, retornar None
+        if not isinstance(data, dict):
+            return None
+        
         keys = path.split('.')
         current = data
         
         for key in keys:
             if key.isdigit():
-                current = current[int(key)]
+                # Acceso a índice de lista
+                if isinstance(current, list):
+                    current = current[int(key)]
+                else:
+                    return None
             else:
-                current = current[key]
+                # Acceso a clave de diccionario
+                if isinstance(current, dict):
+                    current = current.get(key)
+                    if current is None:
+                        return None
+                else:
+                    return None
         
         return float(current) if current is not None else None
-    except (KeyError, IndexError, ValueError, TypeError):
+    except (KeyError, IndexError, ValueError, TypeError, AttributeError):
         return None
 
 def get_current_price(symbol):
