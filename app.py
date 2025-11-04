@@ -181,24 +181,32 @@ def get_current_price(symbol):
                 
                 if response.status_code == 200:
                     data = response.json()
+                    price = None
                     
                     # Extraer precio
-                    if '.' in config['price_path']:
-                        price = get_nested_value(data, config['price_path'])
-                    else:
-                        # Manejar tanto diccionarios como listas
-                        if isinstance(data, list) and len(data) > 0:
-                            price = float(data[0].get(config['price_path'], 0))
-                        elif isinstance(data, dict):
-                            price = float(data.get(config['price_path'], 0))
+                    try:
+                        if '.' in config['price_path']:
+                            price = get_nested_value(data, config['price_path'])
                         else:
-                            price = 0
+                            # Manejar tanto diccionarios como listas
+                            if isinstance(data, list) and len(data) > 0:
+                                price = float(data[0].get(config['price_path'], 0))
+                            elif isinstance(data, dict):
+                                price = float(data.get(config['price_path'], 0))
+                            else:
+                                price = 0
+                    except (ValueError, TypeError):
+                        price = None
                     
-                    if price and price > 0:
+                    # Validar precio
+                    if price is not None and price > 0:
                         print(f"   ✅ {symbol}: ${price:.6f} (desde {config['name']})")
                         return price
                     else:
-                        print(f"   ⚠️  {config['name']}: Precio inválido")
+                        if price == 0:
+                            print(f"   ⚠️  {config['name']}: Precio es 0 (token no disponible)")
+                        else:
+                            print(f"   ⚠️  {config['name']}: Precio inválido ({price})")
                 else:
                     print(f"   ⚠️  {config['name']}: HTTP {response.status_code}")
                     
