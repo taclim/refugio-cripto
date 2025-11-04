@@ -186,7 +186,13 @@ def get_current_price(symbol):
                     if '.' in config['price_path']:
                         price = get_nested_value(data, config['price_path'])
                     else:
-                        price = float(data.get(config['price_path'], 0))
+                        # Manejar tanto diccionarios como listas
+                        if isinstance(data, list) and len(data) > 0:
+                            price = float(data[0].get(config['price_path'], 0))
+                        elif isinstance(data, dict):
+                            price = float(data.get(config['price_path'], 0))
+                        else:
+                            price = 0
                     
                     if price and price > 0:
                         print(f"   ✅ {symbol}: ${price:.6f} (desde {config['name']})")
