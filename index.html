@@ -427,6 +427,10 @@
         <!-- ESTADÍSTICAS -->
         <div class="stats-section">
             <div class="stat-item">
+                <div class="stat-label">Señales Totales</div>
+                <div class="stat-value" id="total-signals">0</div>
+            </div>
+            <div class="stat-item">
                 <div class="stat-label">Operaciones Activas</div>
                 <div class="stat-value" id="active-ops">0</div>
             </div>
@@ -863,6 +867,9 @@
             const longCount = mockOperations.filter(op => op.type === 'LONG').length;
             const shortCount = mockOperations.filter(op => op.type === 'SHORT').length;
             
+            // ✅ CALCULAR TOTAL DE SEÑALES GENERADAS (simulado: operaciones activas + histórico)
+            const totalSignals = mockOperations.length + 5;  // Simulando señales históricas
+            
             let totalGain = 0;
             mockOperations.forEach(op => {
                 if (op.type === 'LONG') {
@@ -872,6 +879,7 @@
                 }
             });
             
+            document.getElementById('total-signals').textContent = totalSignals;
             document.getElementById('active-ops').textContent = mockOperations.length;
             document.getElementById('long-count').textContent = longCount;
             document.getElementById('short-count').textContent = shortCount;
