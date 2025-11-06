@@ -852,9 +852,9 @@
             try {
                 // Intentar obtener estadísticas de la API
                 const statsUrls = [
-                    '/api/statistics',
-                    'http://localhost:5000/api/statistics',
-                    'https://2a95b5e8703c.ngrok-free.app/api/statistics'
+                    'https://2a95b5e8703c.ngrok-free.app/api/statistics',  // ngrok (PRIMERO - para Vercel)
+                    '/api/statistics',                                      // Relativa (SEGUNDO - para localhost)
+                    'http://localhost:5000/api/statistics'                  // Local (TERCERO - fallback)
                 ];
                 
                 for (const url of statsUrls) {
