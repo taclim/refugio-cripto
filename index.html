@@ -523,8 +523,7 @@
             // Intentar múltiples URLs de API
             API_URLS: [
                 '/api/operations',                                            // Relativa (PRIMERO - funciona en Vercel y localhost)
-                'http://localhost:5000/api/operations',                       // Local (SEGUNDO - para desarrollo local)
-                'https://2a95b5e8703c.ngrok-free.app/api/operations'         // ngrok (TERCERO - fallback si ngrok está disponible)
+                'http://localhost:5000/api/operations'                        // Local (SEGUNDO - para desarrollo local)
             ],
             REFRESH_INTERVAL: 5000,  // 5 segundos
             TIMEOUT: 30000            // 30 segundos timeout (obtener precios de múltiples APIs tarda)
