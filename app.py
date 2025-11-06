@@ -323,13 +323,34 @@ def get_operations():
 
 @app.route('/api/statistics', methods=['GET'])
 def get_statistics():
-    """Endpoint: GET /api/statistics - Retorna estadísticas"""
+    """Endpoint: GET /api/statistics - Retorna estadísticas COMPLETAS"""
     try:
-        signals = get_active_signals()
+        conn = get_db_connection()
+        cursor = conn.cursor()
         
-        long_count = len([s for s in signals if s['type'] == 'LONG'])
-        short_count = len([s for s in signals if s['type'] == 'SHORT'])
-        lateral_count = len([s for s in signals if s['type'] == 'LATERAL'])
+        # TOTAL DE SEÑALES (todas)
+        cursor.execute("SELECT COUNT(*) FROM signals")
+        total_signals = cursor.fetchone()[0]
+        
+        # SEÑALES ACTIVAS
+        cursor.execute("SELECT COUNT(*) FROM signals WHERE status = 'active' OR resultado IS NULL")
+        active_signals = cursor.fetchone()[0]
+        
+        # SEÑALES CERRADAS
+        cursor.execute("SELECT COUNT(*) FROM signals WHERE status = 'closed' OR resultado IS NOT NULL")
+        closed_signals = cursor.fetchone()[0]
+        
+        # LONG vs SHORT (activas)
+        cursor.execute("SELECT COUNT(*) FROM signals WHERE signal_type = 'LONG' AND (status = 'active' OR resultado IS NULL)")
+        long_count = cursor.fetchone()[0]
+        
+        cursor.execute("SELECT COUNT(*) FROM signals WHERE signal_type = 'SHORT' AND (status = 'active' OR resultado IS NULL)")
+        short_count = cursor.fetchone()[0]
+        
+        conn.close()
+        
+        # Obtener señales activas para calcular potencial
+        signals = get_active_signals()
         
         total_potential = 0
         for signal in signals:
@@ -346,10 +367,11 @@ def get_statistics():
         return jsonify({
             'success': True,
             'data': {
-                'active_operations': len(signals),
+                'total_signals': total_signals,
+                'active_operations': active_signals,
+                'closed_signals': closed_signals,
                 'long_count': long_count,
                 'short_count': short_count,
-                'lateral_count': lateral_count,
                 'total_potential_gain': round(total_potential, 2),
                 'avg_potential_gain': round(avg_potential, 2)
             },
