@@ -522,9 +522,9 @@
         const CONFIG = {
             // Intentar múltiples URLs de API
             API_URLS: [
-                'https://2a95b5e8703c.ngrok-free.app/api/operations',         // ngrok (PRIMERO - para Vercel)
-                '/api/operations',                                            // Relativa (SEGUNDO - para localhost)
-                'http://localhost:5000/api/operations'                        // Local (TERCERO - fallback)
+                '/api/operations',                                            // Relativa (PRIMERO - funciona en Vercel y localhost)
+                'http://localhost:5000/api/operations',                       // Local (SEGUNDO - para desarrollo local)
+                'https://2a95b5e8703c.ngrok-free.app/api/operations'         // ngrok (TERCERO - fallback si ngrok está disponible)
             ],
             REFRESH_INTERVAL: 5000,  // 5 segundos
             TIMEOUT: 30000            // 30 segundos timeout (obtener precios de múltiples APIs tarda)
@@ -852,9 +852,9 @@
             try {
                 // Intentar obtener estadísticas de la API
                 const statsUrls = [
-                    'https://2a95b5e8703c.ngrok-free.app/api/statistics',  // ngrok (PRIMERO - para Vercel)
-                    '/api/statistics',                                      // Relativa (SEGUNDO - para localhost)
-                    'http://localhost:5000/api/statistics'                  // Local (TERCERO - fallback)
+                    '/api/statistics',                                      // Relativa (PRIMERO - funciona en Vercel y localhost)
+                    'http://localhost:5000/api/statistics',                 // Local (SEGUNDO - para desarrollo local)
+                    'https://2a95b5e8703c.ngrok-free.app/api/statistics'   // ngrok (TERCERO - fallback si ngrok está disponible)
                 ];
                 
                 for (const url of statsUrls) {
