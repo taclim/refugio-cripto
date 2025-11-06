@@ -522,9 +522,9 @@
         const CONFIG = {
             // Intentar múltiples URLs de API
             API_URLS: [
-                '/api/operations',                                            // Relativa (PRIMERO - funciona en Vercel con CORS)
-                'http://localhost:5000/api/operations',                       // Local (SEGUNDO - para desarrollo)
-                'https://2a95b5e8703c.ngrok-free.app/api/operations'         // ngrok (TERCERO - fallback)
+                'https://2a95b5e8703c.ngrok-free.app/api/operations',         // ngrok (PRIMERO - para Vercel)
+                '/api/operations',                                            // Relativa (SEGUNDO - para localhost)
+                'http://localhost:5000/api/operations'                        // Local (TERCERO - fallback)
             ],
             REFRESH_INTERVAL: 5000,  // 5 segundos
             TIMEOUT: 30000            // 30 segundos timeout (obtener precios de múltiples APIs tarda)
